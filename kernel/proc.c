@@ -685,3 +685,17 @@ procdump(void)
     printf("\n");
   }
 }
+
+
+uint64
+num_of_processes() {
+  uint64 count = 0;
+  for (struct proc *p = proc; p < &proc[NPROC]; p++) {
+    acquire(&p->lock);
+    if (p->state != UNUSED) {
+      count++;
+    }
+    release(&p->lock);
+  }
+  return count;
+}
